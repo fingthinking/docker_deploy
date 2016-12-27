@@ -15,18 +15,32 @@ then
 	docker rm -f ${contains}
 fi
 
+# 创建本机的ssh
+if [ ! -e ~/.ssh/id_rsa.pub ]
+then
+        ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa
+fi
+cat ~/.ssh/id_rsa.pub > ./.authorized_keys && cat ./authorized_keys.ct >> ./.authorized_keys
+
+# 写入本地ssh授权
+cat ./.authorized_keys >> ~/.ssh/authorized_keys
+
 
 # 创建新的
 slave_num=2 # slave数量
-image=ruteng/ubuntu_16_04:ssh # 原始镜像
+image=ruteng/ubuntu_1604:ssh # 原始镜像
 share_file=/home/ruteng/share
 
 echo "创建容器hadoop-master"
 docker create --network=hadoop-net --ip=172.20.0.10 -i -t -v ${share_file}:/mnt --name=hadoop-master --hostname=hadoop-master ${image} 
 docker start hadoop-master
+docker cp ./.authorized_keys hadoop-master:root/.ssh/authorized_keys # 写入远程
 for i in $(seq 1 ${slave_num});
 do
 	echo "创建容器hadoop-slave"$i
 	docker create --network=hadoop-net --ip=172.20.0.1${i} -i -t -v ${share_file}:/mnt --name=hadoop-slave${i} --hostname=hadoop-slave${i} ${image} 
 	docker start hadoop-slave${i}
+	docker cp ./.authorized_keys hadoop-slave${i}:root/.ssh/authorized_keys # 写入远程
 done
+
+rm -f ./.authorized_keys # 删除临时文件
