@@ -1,0 +1,2 @@
+# docker_distribute_hadoop
+docker分布式部署hadoop
