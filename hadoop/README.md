@@ -38,6 +38,12 @@
 一键部署Hadoop集群的命令
 
 ---
-在执行完之后,会生成Hadoop集群,可以通过宿主机ssh连接
-例: ssh root@hadoop-master即可
-进入hadoop-master,运行命令`hdfs namenode -format`
+在执行完之后,会生成Hadoop集群,可以通过宿主机ssh连接  
+例: ssh root@hadoop-master即可  
+进入hadoop-master,运行命令
+```sh
+hdfs namenode -format
+start-all.sh
+```
+之后在宿主机浏览器输入hadoop-master:50070就可以看到管理界面~\(≧▽≦)/~啦啦啦
+
