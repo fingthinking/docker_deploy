@@ -1,10 +1,9 @@
 # docker_distribute_hadoop
 docker分布式部署hadoop
 
-### 文件分析
-- authorized_keys.ct: 该文件为image镜像中的ssh授权密钥
-- make_contains.sh: 该文件可以在构建好Hadoop镜像之后,用来部署Hadoop集群
+### 文件夹分析
 
-1. 在image中镜像的基础上构建Hadoop集群镜像
-
-
+1. image中镜像为基础镜像,上传到了百度网盘
+2. hadoop文件夹中为构建Hadoop集群的命令
+3. share文件夹为部分共享的文件,可以下载下来使用
+4. hive文件夹,是在构件好Hadoop集群的基础上搭建hive
