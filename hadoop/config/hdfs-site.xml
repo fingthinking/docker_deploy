@@ -20,7 +20,7 @@
 	
 	<property>
         	<name>dfs.namenode.secondary.http-address</name>
-        	<value>master:9001</value>
+        	<value>hadoop-master:9001</value>
     	</property>
 
     	<property>

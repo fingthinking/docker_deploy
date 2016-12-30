@@ -14,6 +14,8 @@ then
 	# 修改副本数量
 	sed -i "6s/<value>.*<\/value>/<value>${block_num}<\/value>/g" ./config/hdfs-site.xml
 	slave_num=$(($slave_num-1))
+else
+	echo "" > ./config/slaves
 fi
 
 # 创建网络
@@ -30,6 +32,7 @@ echo "172.20.0.10 hadoop-master" > hosts.1
 for i in $(seq 1 ${slave_num}) # 创建hosts文件
 do
         echo "172.20.0.1${i} hadoop-slave${i}" >> hosts.1
+	echo "hadoop-slave${i}" >> ./config/slaves
 done
 # 将hosts文件追加到宿主机
 sudo sed -i -e '/hadoop/d' /etc/hosts
