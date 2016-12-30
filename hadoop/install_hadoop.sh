@@ -9,11 +9,11 @@ image_name=${4:-ruteng/ubuntu_1604:hadoop} # 镜像名称
 
 if [ $has_master = 'Y' ]
 then
-	slave_num=$(($slave_num-1))
 	# 修改config中的文件
 	echo "hadoop-master" > ./config/slaves
 	# 修改副本数量
-	sed -i '6s/<value>.<\/value>/<value>4<\/value>/g' ./config/hdfs-site.xml
+	sed -i "6s/<value>.<\/value>/<value>${slave_name}<\/value>/g" ./config/hdfs-site.xml
+	slave_num=$(($slave_num-1))
 fi
 
 # 创建网络
