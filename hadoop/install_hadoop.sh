@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# 参数说明, 1:副本数量;2,是否包含master,默认包含Y;3.共享文件夹
 # 参数不可隔断设置,比如要设置第三个参数,则前两个也必须设置
 slave_num=${1:-3} # 设置副本数量,默认为3份
-has_master=${2:-'Y'} # 默认包含,不包含请输入N
-share_file=${3:-~/share} # 设置共享文件夹
-image_name=${4:-ruteng/ubuntu_1604:hadoop} # 镜像名称
+block_num=${2:-3} # 设置hdfs块的数量
+has_master=${3:-'Y'} # 默认包含,不包含请输入N
+share_file=${4:-~/share} # 设置共享文件夹
+image_name=${5:-ruteng/ubuntu_1604:hadoop} # 镜像名称
 
 if [ $has_master = 'Y' ]
 then
 	# 修改config中的文件
 	echo "hadoop-master" > ./config/slaves
 	# 修改副本数量
-	sed -i "6s/<value>.<\/value>/<value>${slave_name}<\/value>/g" ./config/hdfs-site.xml
+	sed -i "6s/<value>.*<\/value>/<value>${block_num}<\/value>/g" ./config/hdfs-site.xml
 	slave_num=$(($slave_num-1))
 fi
 
