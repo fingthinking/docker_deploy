@@ -1,4 +1,6 @@
 ×.swp
+*.gz
 
 share/*
 !share/README.md
+
