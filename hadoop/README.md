@@ -45,5 +45,4 @@
 hdfs namenode -format
 start-all.sh
 ```
-之后在宿主机浏览器输入hadoop-master:50070就可以看到管理界面~\(≧▽≦)/~啦啦啦
-
+之后在宿主机浏览器输入hadoop-master:50070(Linux),localhost:50070(Linux,mac)就可以看到管理界面~\(≧▽≦)/~啦啦啦

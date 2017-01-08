@@ -1,4 +1,5 @@
 ## 这是基础镜像,整个项目给予该镜像制作
+[image](https://pan.baidu.com/s/1eSeHVYM)
 ---
 1. 安装了Java8
 2. 安装了ssh

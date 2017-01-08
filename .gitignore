@@ -1,5 +1,5 @@
 .DS_Store
-×.swp
+*.swp
 *.gz
 
 share/*
