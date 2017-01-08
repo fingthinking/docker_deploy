@@ -6,6 +6,25 @@ block_num=${2:-3} # 设置hdfs块的数量
 has_master=${3:-'Y'} # 默认包含,不包含请输入N
 share_file=${4:-~/share} # 设置共享文件夹
 image_name=${5:-ruteng/ubuntu_1604:hadoop} # 镜像名称
+ssh_port=20022
+
+ports=(
+	50070	# NameNode http
+	50075	# DateNode http
+	8480	# journalnode http
+	8088	# ResourceManager http
+	8042	# NodeManager	http
+	19888	# JobHistory Server http
+	9000	# NameNode ipc 用于文件系统操作
+	50020	# DataNode ipc
+	8021	# JobTracker ipc
+)
+
+port_str=''
+for port in ${ports[@]}
+do
+	port_str=${port_str}" -p ${port}:${port}"
+done
 
 if [ $has_master = 'Y' ]
 then
@@ -64,7 +83,7 @@ source delete_contains.sh
 
 # 创建新的容器
 echo "创建容器hadoop-master"
-docker create --network=hadoop-net --ip=172.20.0.10 -i -t -v ${share_file}:/mnt --name=hadoop-master --hostname=hadoop-master ${image_name}
+docker create --network=hadoop-net --ip=172.20.0.10 -i -t -v ${share_file}:/mnt --name=hadoop-master --hostname=hadoop-master -p ${ssh_port}:22  ${port_str} ${image_name}
 docker cp ./authorized_keys hadoop-master:/root/.ssh/authorized_keys
 docker start hadoop-master
 
