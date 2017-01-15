@@ -31,7 +31,7 @@ then
 	# 修改config中的文件
 	echo "hadoop-master" > ./config/slaves
 	# 修改副本数量
-	sed -i "6s/<value>.*<\/value>/<value>${block_num}<\/value>/g" ./config/hdfs-site.xml
+	sed -i "" "6s/<value>.*<\/value>/<value>${block_num}<\/value>/g" ./config/hdfs-site.xml
 	slave_num=$(($slave_num-1))
 else
 	echo "" > ./config/slaves
