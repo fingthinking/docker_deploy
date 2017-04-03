@@ -78,7 +78,9 @@ do
 	zk_data=`grep 'dataDir' zoo.cfg.tpl | awk -F '=' '{print $2}'`
 	docker cp myid ${zk_server}${i}:${zk_data}/myid
         docker cp ./authorized_keys ${zk_server}${i}:/root/.ssh/authorized_keys
-        docker start ${zk_server}${i}
+        docker cp zk_start.sh ${zk_server}${i}:/zk_start.sh
+	docker cp zk_status.sh ${zk_server}${i}:/zk_status.sh
+	docker start ${zk_server}${i}
 done
 
 # 删除临时文件
