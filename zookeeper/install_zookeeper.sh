@@ -6,20 +6,11 @@ ssh_port=20022
 zk_net='172.30.0.0'
 zk_prefix=${zk_net%'0'}
 zk_net_name='zookeeper-net'
-zk_server='zk_server'
+zk_server='zkServer'
 
 zk_client_port=2181	# zookeeper Client port
 zk_data_port=2888	# zookeeper Data transport
 zk_leader_port=3888	# zookeeper Leader 选举
-
-ports=(${zk_client_port} ${zk_data_port} ${zk_leader_port})
-
-# 开放端口号列表
-port_str=''
-for port in ${ports[@]}
-do
-	port_str=${port_str}" -p ${port}:${port}"
-done
 
 # 创建网络
 zookeeper_net=`docker network ls | grep 'zookeeper-net'`
@@ -73,7 +64,7 @@ for i in $(seq 1 ${zk_num}) # 创建容器
 do
         echo "创建容器${zk_server}${i}"
 	lst=`printf "%.2d" $i`
-        docker create --network=${zk_net_name} --ip=${zk_prefix}1${lst} -i -t -v ${share_file}:/mnt --name=${zk_server}${i} --hostname=${zk_server}${i} ${image_name}
+	docker create --network=${zk_net_name} --ip=${zk_prefix}1${lst} -i -t -v ${share_file}:/mnt -p $[zk_client_port+$i]:${zk_client_port} --name=${zk_server}${i} --hostname=${zk_server}${i} ${image_name}
 	echo $i > myid
 	zk_data=`grep 'dataDir' zoo.cfg.tpl | awk -F '=' '{print $2}'`
 	docker cp myid ${zk_server}${i}:${zk_data}/myid
